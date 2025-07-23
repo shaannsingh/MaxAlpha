@@ -1,0 +1,25 @@
+# Data files
+data/
+*.csv
+
+.vscode/
+*.json
+
+# Compiled binaries
+*.o
+*.exe
+limitOrderBook
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Build artifacts
+build/
+dist/
