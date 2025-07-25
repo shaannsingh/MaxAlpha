@@ -1,4 +1,5 @@
 #include <iostream>
+#include <algorithm>
 #include "../include/parser.h"
 
 Parser::Parser() {}
@@ -34,7 +35,8 @@ std::vector<MarketData> Parser::loadData(const std::string &data)
             std::getline(s, closeStr, ',');
             std::getline(s, volumeStr);
             MarketData tick;
-            tick.timestamp = timeStamp;
+            std::string dirtyTimeStamp = timeStamp;
+            tick.timestamp = cleanTimeStamp(dirtyTimeStamp);
             tick.open = stod(openStr);
             tick.high = stod(highStr);
             tick.low = stod(lowStr);
@@ -50,4 +52,13 @@ std::vector<MarketData> Parser::loadData(const std::string &data)
     }
 
     return marketData;
+}
+
+long Parser::cleanTimeStamp(std::string timestamp)
+{
+    timestamp.erase(std::remove(timestamp.begin(), timestamp.end(), ' '));
+    timestamp.erase(std::remove(timestamp.begin(), timestamp.end(), '-'));
+    timestamp.erase(std::remove(timestamp.begin(), timestamp.end(), ':'));
+    long newTimeStamp = stol(timestamp);
+    return newTimeStamp;
 }

@@ -8,7 +8,7 @@
 
 struct MarketData
 {
-    std::string timestamp;
+    long timestamp;
     double open;
     double high;
     double low;
@@ -20,6 +20,7 @@ class Parser
 {
 private:
     std::vector<MarketData> marketData;
+    long cleanTimeStamp(std::string timestamp);
 
 public:
     Parser();
