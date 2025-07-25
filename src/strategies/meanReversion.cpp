@@ -1,8 +1,7 @@
 #include <iostream>
-#include "include/strategies/meanReversion.h"
+#include "strategies/meanReversion.h"
 
 MeanReversion::MeanReversion(int observed, double threshold, int position) : observedPeriod(observed), deviationThreshold(threshold), positionQuantity(position) {};
-int Strategy::orderCount = 0;
 
 Signal MeanReversion::analyze(const MarketData &nextTick)
 {
