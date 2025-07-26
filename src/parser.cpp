@@ -49,6 +49,7 @@ std::vector<MarketData> Parser::loadData(const std::string &data)
     else
     {
         std::cerr << "Could not open file." << "\n";
+        exit(2);
     }
 
     return marketData;
