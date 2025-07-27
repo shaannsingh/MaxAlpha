@@ -19,12 +19,13 @@ class Strategy
 protected:
     std::vector<MarketData> data;
     static int orderCount;
+    int positionQuantity;
 
 public:
     Strategy();
     virtual ~Strategy() = default;
     virtual Signal analyze(const MarketData &newTick) = 0;
-    virtual Order generateOrder(Signal signal, const MarketData &currentTick) = 0;
+    Order generateOrder(Signal signal, const MarketData &currentTick);
 };
 
 #endif

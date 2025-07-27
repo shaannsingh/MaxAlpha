@@ -7,14 +7,13 @@
 class MeanReversion : public Strategy
 {
 protected:
-    int movingAverageWindow, positionQuantity;
+    int movingAverageWindow;
     double deviationThreshold;
     double findMovingAverage();
 
 public:
     MeanReversion(int moving, double threshold, int position);
     Signal analyze(const MarketData &newTick) override;
-    Order generateOrder(Signal signal, const MarketData &currentTick) override;
 };
 
 #endif

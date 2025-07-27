@@ -1,7 +1,10 @@
 #include <iostream>
 #include "strategies/meanReversion.h"
 
-MeanReversion::MeanReversion(int moving, double threshold, int position) : movingAverageWindow(moving), deviationThreshold(threshold), positionQuantity(position) {};
+MeanReversion::MeanReversion(int moving, double threshold, int position) : movingAverageWindow(moving), deviationThreshold(threshold)
+{
+    this->positionQuantity = position;
+};
 
 Signal MeanReversion::analyze(const MarketData &nextTick)
 {
@@ -19,17 +22,6 @@ Signal MeanReversion::analyze(const MarketData &nextTick)
         return SELL;
     return HOLD;
 };
-
-Order MeanReversion::generateOrder(Signal signal, const MarketData &currentTick)
-{
-    orderCount++;
-    char side = (signal == BUY ? 'B' : 'S');
-    double price = currentTick.close;
-    int quantity = positionQuantity;
-    long timestamp = currentTick.timestamp;
-    int id = orderCount;
-    return Order(id, side, price, quantity, timestamp);
-}
 
 double MeanReversion::findMovingAverage()
 {

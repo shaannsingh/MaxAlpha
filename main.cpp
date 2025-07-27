@@ -6,9 +6,9 @@
 
 int main(int argc, char **argv)
 {
-    if (argc != 4)
+    if (argc != 5)
     {
-        std::cerr << "Usage: ./limitOrderBook <strategy> <ticker> <window>" << "\n";
+        std::cerr << "Usage: ./limitOrderBook <strategy> <ticker> <quantity> <window>" << "\n";
         exit(1);
     }
 
@@ -17,8 +17,10 @@ int main(int argc, char **argv)
     std::stringstream s;
     std::string strategyName = argv[1];
     std::string ticker = argv[2];
-    std::string analysisWindow = argv[3];
-    int window = stoi(analysisWindow);
+    std::string quantity = argv[3];
+    int positionQuantity = stoi(quantity);
+    std::string window = argv[4];
+    int analysisWindow = stoi(window);
 
     s << "data/daily_" << ticker << ".csv";
     std::string filename = s.str();
@@ -29,7 +31,7 @@ int main(int argc, char **argv)
 
     if (strategyName == "MeanReversion")
     {
-        int movingAverage, positionQuantity;
+        int movingAverage;
         double deviationThreshold;
 
         std::cout << "Enter moving-day average (between 20 and 50): " << "\n";
@@ -37,9 +39,6 @@ int main(int argc, char **argv)
 
         std::cout << "Enter price deviation threshold (e.g. 1%, 2%, 5%...)" << "\n";
         std::cin >> deviationThreshold;
-
-        std::cout << "Enter the quantity of shares you want for this position (10, 20, 100, 300...): " << "\n";
-        std::cin >> positionQuantity;
 
         strategy = new MeanReversion(movingAverage, deviationThreshold, positionQuantity);
     }
@@ -51,7 +50,7 @@ int main(int argc, char **argv)
     int totalTrades = 0;
     int displayedTrades = 0;
 
-    for (int i = window - 1; i >= 0; i--)
+    for (int i = analysisWindow - 1; i >= 0; i--)
     {
         {
             Signal signal = strategy->analyze(marketData[i]);
