@@ -2,12 +2,13 @@
 #include "include/strategies/meanReversion.h"
 #include "orderBook.h"
 #include <sstream>
+#include <string>
 
 int main(int argc, char **argv)
 {
-    if (argc != 3)
+    if (argc != 4)
     {
-        std::cerr << "Usage: ./limitOrderBook <strategy> <ticker>" << "\n";
+        std::cerr << "Usage: ./limitOrderBook <strategy> <ticker> <window>" << "\n";
         exit(1);
     }
 
@@ -16,8 +17,10 @@ int main(int argc, char **argv)
     std::stringstream s;
     std::string strategyName = argv[1];
     std::string ticker = argv[2];
+    std::string analysisWindow = argv[3];
+    int window = stoi(analysisWindow);
 
-    s << "data/intraday_1min_" << ticker << ".csv";
+    s << "data/daily_" << ticker << ".csv";
     std::string filename = s.str();
 
     auto marketData = parser.loadData(filename);
@@ -34,7 +37,6 @@ int main(int argc, char **argv)
 
         std::cout << "Enter price deviation threshold (e.g. 1%, 2%, 5%...)" << "\n";
         std::cin >> deviationThreshold;
-        deviationThreshold /= 100;
 
         std::cout << "Enter the quantity of shares you want for this position (10, 20, 100, 300...): " << "\n";
         std::cin >> positionQuantity;
@@ -47,17 +49,22 @@ int main(int argc, char **argv)
     }
 
     int totalTrades = 0;
-    for (const auto &tick : marketData)
-    {
-        Signal signal = strategy->analyze(tick);
+    int displayedTrades = 0;
 
-        if (signal != HOLD)
+    for (int i = window - 1; i >= 0; i--)
+    {
         {
-            Order order = strategy->generateOrder(signal, tick);
-            orderBook.addOrder(order);
-            totalTrades++;
+            Signal signal = strategy->analyze(marketData[i]);
+
+            if (signal != HOLD)
+            {
+                Order order = strategy->generateOrder(signal, marketData[i]);
+                orderBook.addOrder(order);
+                totalTrades++;
+            }
         }
     }
+
     orderBook.displayBook();
     delete strategy;
 

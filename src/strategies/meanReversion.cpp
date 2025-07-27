@@ -1,17 +1,17 @@
 #include <iostream>
 #include "strategies/meanReversion.h"
 
-MeanReversion::MeanReversion(int observed, double threshold, int position) : observedPeriod(observed), deviationThreshold(threshold), positionQuantity(position) {};
+MeanReversion::MeanReversion(int moving, double threshold, int position) : movingAverageWindow(moving), deviationThreshold(threshold), positionQuantity(position) {};
 
 Signal MeanReversion::analyze(const MarketData &nextTick)
 {
     data.push_back(nextTick);
 
-    if (data.size() < observedPeriod)
+    if (data.size() < movingAverageWindow)
         return HOLD;
 
     double movingAverage = findMovingAverage();
-    double deviation = (nextTick.close - movingAverage) / movingAverage;
+    double deviation = ((nextTick.close - movingAverage) / movingAverage) * 100;
 
     if (deviation < -deviationThreshold)
         return BUY;
@@ -35,10 +35,10 @@ double MeanReversion::findMovingAverage()
 {
     double sum = 0.0;
 
-    for (int i = (int)(data.size() - observedPeriod); i < data.size(); i++)
+    for (int i = (int)(data.size() - movingAverageWindow); i < data.size(); i++)
     {
         sum += data[i].close;
     }
 
-    return sum / observedPeriod;
+    return sum / movingAverageWindow;
 }
