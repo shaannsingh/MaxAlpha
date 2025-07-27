@@ -8,9 +8,11 @@ class RelativeStrengthIndicator : public Strategy
 {
 protected:
     double level;
+    std::vector<double> gains;
+    std::vector<double> losses;
 
 public:
-    RelativeStrengthIndicator(double relativeStrength);
+    RelativeStrengthIndicator(int position);
     Signal analyze(const MarketData &tick) override;
 };
 

@@ -1,5 +1,6 @@
 #include "include/parser.h"
 #include "include/strategies/meanReversion.h"
+#include "include/strategies/rsi.h"
 #include "orderBook.h"
 #include <sstream>
 #include <string>
@@ -41,6 +42,11 @@ int main(int argc, char **argv)
         std::cin >> deviationThreshold;
 
         strategy = new MeanReversion(movingAverage, deviationThreshold, positionQuantity);
+    }
+    else if (strategyName == "RSI")
+    {
+
+        strategy = new RelativeStrengthIndicator(positionQuantity);
     }
     else
     {
