@@ -1,6 +1,6 @@
 #include "strategies/strategy.h"
 
-Strategy::Strategy() {};
+Strategy::Strategy(int position) : positionQuantity(position) {};
 
 int Strategy::orderCount = 0;
 
@@ -13,4 +13,16 @@ Order Strategy::generateOrder(Signal signal, const MarketData &currentTick)
     long timestamp = currentTick.timestamp;
     int id = orderCount;
     return Order(id, side, price, quantity, timestamp);
+}
+
+double Strategy::findMovingAverage(int movingAverageWindow)
+{
+    double sum = 0.0;
+
+    for (int i = (int)(data.size() - movingAverageWindow); i < data.size(); i++)
+    {
+        sum += data[i].close;
+    }
+
+    return sum / movingAverageWindow;
 }

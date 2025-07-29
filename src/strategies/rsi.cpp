@@ -2,20 +2,7 @@
 #include <strategies/rsi.h>
 #include <numeric>
 
-RelativeStrengthIndicator::RelativeStrengthIndicator(int position)
-{
-    this->positionQuantity = position;
-};
-
-double sum(std::vector<double> &v)
-{
-    double s = 0.00;
-    for (int i = 0; i < v.size(); i++)
-    {
-        s += v[i];
-    }
-    return s;
-}
+RelativeStrengthIndicator::RelativeStrengthIndicator(int position) : Strategy(position) {};
 
 Signal RelativeStrengthIndicator::analyze(const MarketData &currentTick)
 {
@@ -26,7 +13,7 @@ Signal RelativeStrengthIndicator::analyze(const MarketData &currentTick)
     if (data.size() < 15)
         return HOLD;
 
-    for (int i = (int)(data.size() - 14); (int)i < data.size() - 1; i++)
+    for (int i = (int)(data.size() - 14); (int)i < (int)data.size() - 1; i++)
     {
         double change = data[i + 1].close - data[i].close;
         if (change > 0)
@@ -46,8 +33,20 @@ Signal RelativeStrengthIndicator::analyze(const MarketData &currentTick)
         std::cerr << "Error: data not read or empty." << "\n";
     }
 
-    double relativeStrength = (std::accumulate(gains.begin(), gains.end(), 0) / gains.size()) /
-                              (std::accumulate(losses.begin(), losses.end(), 0) / losses.size());
+    double avgGain = (std::accumulate(gains.begin(), gains.end(), 0.0) / gains.size());
+    double avgLoss = (std::accumulate(losses.begin(), losses.end(), 0.0) / losses.size());
+
+    if (avgLoss == 0.0)
+    {
+        return SELL;
+    }
+    if (avgGain == 0.0)
+    {
+        return BUY;
+    }
+
+    double relativeStrength = avgGain / avgLoss;
+
     double relativeStrengthIndex = 100 - (100 / (1 + relativeStrength));
 
     if (relativeStrengthIndex > 70)

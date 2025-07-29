@@ -1,6 +1,7 @@
 #include "include/parser.h"
 #include "include/strategies/meanReversion.h"
 #include "include/strategies/rsi.h"
+#include "include/strategies/bollinger.h"
 #include "orderBook.h"
 #include <sstream>
 #include <string>
@@ -47,6 +48,14 @@ int main(int argc, char **argv)
     {
 
         strategy = new RelativeStrengthIndicator(positionQuantity);
+    }
+    else if (strategyName == "Bollinger")
+    {
+        double deviationMultiplier;
+
+        std::cout << "Enter your deviation multiplier - 0.5 (tight), 1.0 (reasonable), 2.0 (loose), 5.0 (crazy): " << "\n";
+        std::cin >> deviationMultiplier;
+        strategy = new Bollinger(deviationMultiplier, positionQuantity);
     }
     else
     {

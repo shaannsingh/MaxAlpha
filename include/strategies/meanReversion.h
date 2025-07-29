@@ -9,11 +9,10 @@ class MeanReversion : public Strategy
 protected:
     int movingAverageWindow;
     double deviationThreshold;
-    double findMovingAverage();
 
 public:
     MeanReversion(int moving, double threshold, int position);
-    Signal analyze(const MarketData &newTick) override;
+    Signal analyze(const MarketData &currentTick) override;
 };
 
 #endif

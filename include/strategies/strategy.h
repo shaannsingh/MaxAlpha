@@ -20,9 +20,10 @@ protected:
     std::vector<MarketData> data;
     static int orderCount;
     int positionQuantity;
+    double findMovingAverage(int movingAverageWindow);
 
 public:
-    Strategy();
+    Strategy(int position);
     virtual ~Strategy() = default;
     virtual Signal analyze(const MarketData &newTick) = 0;
     Order generateOrder(Signal signal, const MarketData &currentTick);

@@ -13,7 +13,7 @@ protected:
 
 public:
     RelativeStrengthIndicator(int position);
-    Signal analyze(const MarketData &tick) override;
+    Signal analyze(const MarketData &currentTick) override;
 };
 
 #endif
