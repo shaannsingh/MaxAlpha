@@ -7,7 +7,6 @@
 class RelativeStrengthIndicator : public Strategy
 {
 protected:
-    double level;
     std::vector<double> gains;
     std::vector<double> losses;
 
