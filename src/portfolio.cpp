@@ -17,11 +17,18 @@ double Portfolio::calculatePnL()
     {
         double position = order.getOrderPrice() * order.getOrderQuantity();
         pnl += (order.getOrderSide() == 'S') ? position : -position;
+        portfolioValue += pnl;
     }
 
     return pnl;
 }
 
-double Portfolio::calculateSharpeRatio(double riskFreeRate)
-{
-}
+double Portfolio::calculateSharpeRatio(double riskFreeRate) {
+
+};
+
+double Portfolio::calculateStandardDeviation(std::vector<Order> &orders) {
+};
+
+double Portfolio::calculateDailyReturns() {
+};
