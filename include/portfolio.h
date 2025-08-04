@@ -10,17 +10,17 @@ class Portfolio
 {
 private:
     std::vector<Order> orders;
-    double capital, portfolioValue;
-    double calculateDailyReturns();
-    double calculateStandardDeviation(std::vector<Order> &orders);
+    double capital;
+    double standardDeviation(std::vector<double> &returns);
 
 public:
     Portfolio(double cash);
     void process(Order order);
+    bool sufficientFunds(Order order);
+    double getPortfolioValue(const double close);
+    int getPortfolioShares();
+    double sharpeRatio(double riskFreeRate, std::vector<double> returns, const double currentPrice);
     double calculatePnL();
-    double calculateSharpeRatio(double riskFreeRate);
-    void getPortfolioValue();
-    void addDailyReturn(const double price);
 };
 
 #endif

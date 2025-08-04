@@ -12,10 +12,10 @@ Signal Bollinger::analyze(const MarketData &currentTick)
         return HOLD;
 
     double middleBand = findMovingAverage(20);
-    double standardDeviation = calculateStandardDeviation(data);
+    double stdDev = standardDeviation(data);
 
-    upperBand = middleBand + (deviationMultiplier * standardDeviation);
-    lowerBand = middleBand - (deviationMultiplier * standardDeviation);
+    upperBand = middleBand + (deviationMultiplier * stdDev);
+    lowerBand = middleBand - (deviationMultiplier * stdDev);
 
     double price = currentTick.close;
 
@@ -33,19 +33,17 @@ Signal Bollinger::analyze(const MarketData &currentTick)
     }
 }
 
-double Bollinger::calculateStandardDeviation(std::vector<MarketData> &data)
+double Bollinger::standardDeviation(std::vector<MarketData> &data)
 {
-    double sum, mean, variance, standardDeviation;
-
-    sum = 0.0;
-    variance = 0.0;
+    double sum = 0.0;
+    double variance = 0.0;
     int start = data.size() - 20;
 
     for (int i = start; i < data.size(); i++)
     {
         sum += data[i].close;
     }
-    mean = sum / 20;
+    double mean = sum / 20;
 
     for (int i = start; i < data.size(); i++)
     {

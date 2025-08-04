@@ -10,7 +10,7 @@ protected:
     double deviationMultiplier;
     double upperBand;
     double lowerBand;
-    double calculateStandardDeviation(std::vector<MarketData> &data);
+    double standardDeviation(std::vector<MarketData> &data);
 
 public:
     Bollinger(double multiplier, int position);
