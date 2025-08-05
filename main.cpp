@@ -79,6 +79,8 @@ int main(int argc, char **argv)
         if (signal != HOLD)
         {
             Order order = strategy->generateOrder(signal, marketData[i]);
+            if (order.getOrderSide() == 'S' && portfolio.getPortfolioShares() == 0)
+                continue;
             if (portfolio.sufficientFunds(order))
             {
                 orderBook.addOrder(order);
@@ -98,10 +100,12 @@ int main(int argc, char **argv)
     for (int i = 1; i < dailyValues.size(); i++)
     {
         double returnValue = (dailyValues[i] - dailyValues[i - 1]) / dailyValues[i - 1];
+        if (returnValue == 0)
+            continue;
         dailyReturns.push_back(returnValue);
     }
 
-    double sharpe = portfolio.sharpeRatio(0.02, dailyReturns, marketData[0].close);
+    double sharpe = portfolio.sharpeRatio((0.02 / 252), dailyReturns, marketData[0].close);
     orderBook.displayBook();
     delete strategy;
 
