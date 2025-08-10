@@ -8,7 +8,7 @@ data/
 # Compiled binaries
 *.o
 *.exe
-limitOrderBook
+maxAlpha
 
 # IDE files
 .vscode/
