@@ -41,22 +41,10 @@ double Portfolio::calculatePnL()
 double Portfolio::sharpeRatio(double riskFreeRate, std::vector<double> returns, const double currentPrice)
 {
     double portfolioValue = getPortfolioValue(currentPrice);
-    double returnValue = (portfolioValue - capital) / capital;
+    double averageReturn = std::accumulate(returns.begin(), returns.end(), 0.0) / returns.size();
     double volatility = standardDeviation(returns);
 
-    std::cout << "DEBUG - Number of daily returns: " << returns.size() << std::endl;
-    std::cout << "DEBUG - Sample daily returns: ";
-    for (int i = 0; i < std::min(5, (int)returns.size()); i++)
-    {
-        std::cout << returns[i] * 100 << "%, ";
-    }
-    std::cout << std::endl;
-    std::cout << "DEBUG - Time period: " << returns.size() << " days" << std::endl;
-    std::cout << "DEBUG - Total Return: " << returnValue << std::endl;
-    std::cout << "DEBUG - Volatility: " << volatility << std::endl;
-    std::cout << "DEBUG - Risk-free rate: " << riskFreeRate << std::endl;
-
-    return (returnValue - riskFreeRate) / volatility;
+    return (averageReturn - riskFreeRate) / volatility;
 };
 
 double Portfolio::standardDeviation(std::vector<double> &returns)
