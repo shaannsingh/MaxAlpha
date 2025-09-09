@@ -1,13 +1,13 @@
 #include <iostream>
 #include "strategies/meanReversion.h"
 
-MeanReversion::MeanReversion(int moving, double threshold, int position) : movingAverageWindow(moving), deviationThreshold(threshold), Strategy(position) {};
+MeanReversion::MeanReversion(int moving, double threshold, int position) : Strategy(position), movingAverageWindow(moving), deviationThreshold(threshold) {};
 
 Signal MeanReversion::analyze(const MarketData &currentTick)
 {
     data.push_back(currentTick);
 
-    if (data.size() < movingAverageWindow)
+    if (static_cast<int>(data.size()) < movingAverageWindow)
         return HOLD;
 
     double movingAverage = findMovingAverage(movingAverageWindow);

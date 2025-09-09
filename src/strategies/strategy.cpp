@@ -19,7 +19,7 @@ double Strategy::findMovingAverage(int movingAverageWindow)
 {
     double sum = 0.0;
 
-    for (int i = (int)(data.size() - movingAverageWindow); i < data.size(); i++)
+    for (size_t i = (data.size() - movingAverageWindow); i < data.size(); i++)
     {
         sum += data[i].close;
     }

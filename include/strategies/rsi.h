@@ -2,11 +2,13 @@
 #define RSI_H
 
 #include <iostream>
+#include <deque>
 #include "strategy.h"
 
 class RelativeStrengthIndicator : public Strategy
 {
 protected:
+    std::deque<double> prices;
     std::vector<double> gains;
     std::vector<double> losses;
 

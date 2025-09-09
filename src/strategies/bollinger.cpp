@@ -3,7 +3,7 @@
 #include <numeric>
 #include <algorithm>
 
-Bollinger::Bollinger(double multiplier, int position) : deviationMultiplier(multiplier), Strategy(position) {};
+Bollinger::Bollinger(double multiplier, int position) : Strategy(position), deviationMultiplier(multiplier) {};
 
 Signal Bollinger::analyze(const MarketData &currentTick)
 {
@@ -39,13 +39,13 @@ double Bollinger::standardDeviation(std::vector<MarketData> &data)
     double variance = 0.0;
     int start = data.size() - 20;
 
-    for (int i = start; i < data.size(); i++)
+    for (size_t i = start; i < data.size(); i++)
     {
         sum += data[i].close;
     }
     double mean = sum / 20;
 
-    for (int i = start; i < data.size(); i++)
+    for (size_t i = start; i < data.size(); i++)
     {
         double deviation = data[i].close - mean;
         variance += deviation * deviation;

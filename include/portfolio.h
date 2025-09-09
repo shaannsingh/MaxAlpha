@@ -19,7 +19,7 @@ public:
     bool sufficientFunds(Order order);
     double getPortfolioValue(const double close);
     int getPortfolioShares();
-    double sharpeRatio(double riskFreeRate, std::vector<double> returns, const double currentPrice);
+    double sharpeRatio(double riskFreeRate, std::vector<double> returns);
     double calculatePnL();
 };
 

@@ -38,9 +38,8 @@ double Portfolio::calculatePnL()
     return pnl;
 }
 
-double Portfolio::sharpeRatio(double riskFreeRate, std::vector<double> returns, const double currentPrice)
+double Portfolio::sharpeRatio(double riskFreeRate, std::vector<double> returns)
 {
-    double portfolioValue = getPortfolioValue(currentPrice);
     double averageReturn = std::accumulate(returns.begin(), returns.end(), 0.0) / returns.size();
     double volatility = standardDeviation(returns);
 
@@ -61,7 +60,7 @@ double Portfolio::standardDeviation(std::vector<double> &returns)
     }
     double mean = sum / (returns.size());
 
-    for (int i = 0; i < returns.size(); i++)
+    for (size_t i = 0; i < returns.size(); i++)
     {
         double deviation = returns[i] - mean;
         variance += deviation * deviation;

@@ -11,7 +11,7 @@ int main(int argc, char **argv)
 {
     if (argc != 6)
     {
-        std::cerr << "Usage: ./limitOrderBook <strategy> <ticker> <cash> <quantity> <window>" << "\n";
+        std::cerr << "Usage: ./maxAlpha <strategy> <ticker> <cash> <quantity> <window>" << "\n";
         exit(1);
     }
 
@@ -68,7 +68,6 @@ int main(int argc, char **argv)
     }
 
     int totalTrades = 0;
-    int displayedTrades = 0;
     std::vector<double> dailyValues;
     std::vector<double> dailyReturns;
 
@@ -97,7 +96,7 @@ int main(int argc, char **argv)
         dailyValues.push_back(todaysValue);
     }
 
-    for (int i = 1; i < dailyValues.size(); i++)
+    for (size_t i = 1; i < dailyValues.size(); i++)
     {
         double returnValue = (dailyValues[i] - dailyValues[i - 1]) / dailyValues[i - 1];
         if (returnValue == 0)
@@ -105,7 +104,7 @@ int main(int argc, char **argv)
         dailyReturns.push_back(returnValue);
     }
 
-    double sharpe = portfolio.sharpeRatio((0.02 / 252), dailyReturns, marketData[0].close);
+    double sharpe = portfolio.sharpeRatio((0.02 / 252), dailyReturns);
     orderBook.displayBook();
     delete strategy;
 
